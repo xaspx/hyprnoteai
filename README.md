@@ -4,8 +4,7 @@
 <h1 align="center">Hyprnote <i>(Public Beta)</i></h1>
 <p align="center">AI notepad for meetings. <strong>Local-first & Extensible</strong>.</p>
  <p align="center">
-  <a href="https://hyprnote.com/discord" target="_blank"><img src="https://img.shields.io/static/v1?label=Join%20our&message=Discord&color=blue&logo=Discord" alt="Discord"></a>
-  <a href="https://x.com/tryhyprnote" target="_blank"><img src="https://img.shields.io/static/v1?label=Follow%20us%20on&message=X&color=black&logo=x" alt="X"></a>
+  <a href="https://x.com/hyprnoteai" target="_blank"><img src="https://img.shields.io/static/v1?label=Follow%20us%20on&message=X&color=black&logo=x" alt="X"></a>
 </p>
 </p>
    
@@ -26,9 +25,9 @@
 brew tap fastrepl/hyprnote && brew install hyprnote --cask
 ```
 
-- [Macos](https://hyprnote.com/download) (public beta)
-- [Windows](https://github.com/fastrepl/hyprnote/issues/66) (soon)
-- [Linux](https://github.com/fastrepl/hyprnote/issues/67) (maybe)
+- [Macos](https://hyprnote.app/) (public beta)
+- [Windows](https://hyprnote.app/) (soon)
+- [Linux](https://hyprnote.app/) (maybe)
 
 ## Highlights
 
