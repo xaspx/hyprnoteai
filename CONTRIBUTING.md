@@ -1,119 +1,77 @@
-# Contributing
+## Reporting Issues
 
-We welcome **all** kinds of contributions - bug fixes, big features, docs, examples and more. _You don't need to be an AI expert
-or even a Python developer to help out._
-
-## Checklist
-
-Contributions are made through
-[pull requests](https://help.github.com/articles/using-pull-requests/).
-
-Before sending a pull request, make sure to do the following:
-
-- Fork the repo, and create a feature branch prefixed with `feature/`
-- [Lint, typecheck, and format](#lint-typecheck-format) your code
-- [Add examples](#examples)
-
-_Please reach out to the mcp-agent maintainers before starting work on a large
-contribution._ Get in touch at
-[GitHub issues](https://github.com/lastmile-ai/mcp-agent/issues)
-or [on Discord](https://lmai.link/discord/mcp-agent).
-
-## Prerequisites
-
-To build mcp-agent, you'll need the following installed:
-
-- Install [uv](https://docs.astral.sh/uv/), which we use for Python package management
-- Install [Python](https://www.python.org/) >= 3.10. (You may already it installed. To see your version, use `python -V` at the command line.)
-
-  If you don't, install it using `uv python install 3.10`
-
-- Install dev dependencies using `uv sync --dev`
-
-## Scripts
-
-There are several useful scripts in the `scripts/` directory that can be invoked via `uv run scripts/<script>.py [ARGS]`
-
-### promptify.py
-
-Bundles the mcp-agent repo into a single `project_contents.md` so you can use it as a prompt for LLMs to help you develop.
-Use `-i REGEX` to include only specific files, and `-x REGEX` to exclude certain files.
-
-Example:
+### What version of Hyprnote are you using?
 
 ```bash
-uv run scripts/promptify.py -i "**/agents/**" -i "**/context.py" -x "**/app.py"
+curl -s https://raw.githubusercontent.com/fastrepl/hyprnote/refs/heads/main/scripts/info.sh | bash
 ```
 
-### example.py
-
-This script lets you run any example in the `examples/` directory in debug mode. It configures the venv for the example,
-installs its dependencies from `requirements.txt`, and runs the example.
-
-To run:
-
-```bash
-uv run scripts/example.py run <example_name> --debug
-```
-
-To clean:
-
-```bash
-uv run scripts/example.py clean <example_name>
-```
-
-Example usage to run `examples/workflow_orchestrator_worker`:
-
-```bash
-uv run scripts/example.py run workflow_orchestrator_worker --debug
-```
-
-## Lint, Typecheck, Format
-
-Lint and format is run as part of the precommit hook defined in [.pre-commit-config.yaml](./.pre-commit-config.yaml).
-
-**Lint**
-
-```bash
-uv run scripts/lint.py --fix
-```
-
-**Format**
-
-```bash
-uv run scripts/format.py
-```
-
-## Examples
-
-We use the examples for end-to-end testing. We'd love for you to add Python unit tests for new functionality going forward.
-
-At minimum, for any new feature or provider integration (e.g. additional LLM support), you should add example usage in the [`examples`](./examples/) directory.
-
-## Editor settings
-
-If you use vscode, you might find the following `settings.json` useful. We've added them to the [.vscode](./.vscode) directory along with recommended extensions
+Running above script will output something like the following:
 
 ```json
 {
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "[python]": {
-    "editor.defaultFormatter": "charliermarsh.ruff",
-    "editor.formatOnSave": true,
-    "editor.rulers": []
-  },
-  "yaml.schemas": {
-    "https://raw.githubusercontent.com/lastmile-ai/mcp-agent/main/schema/mcp-agent.config.schema.json": [
-      "mcp-agent.config.yaml",
-      "mcp_agent.config.yaml",
-      "mcp-agent.secrets.yaml",
-      "mcp_agent.secrets.yaml"
-    ]
-  }
+    "stable": {
+        "userId": "16d9132c-8dc4-49a7-a66d-2a317e884c33",
+        "version": "0.0.27"
+    },
+    "nightly": {
+        "userId": "26319089-598d-4267-87d5-cd30160c83d3",
+        "version": "0.0.27"
+    }
 }
 ```
 
-## Thank you
+You can find latest version at [releases page](https://github.com/fastrepl/hyprnote/releases).
 
-If you are considering contributing, or have already done so, **thank you**. This project is meant to streamline AI application development, and we need all the help we can get! Happy building.
+Also, download button in [docs](https://docs.hyprnote.com) always points to the latest version.
+
+## Development
+
+### Requirements
+``` bash
+# Installing the rust toolchain used for tauri and the backend libs
+curl https://sh.rustup.rs -sSf | sh
+# libomp is required for llama-cpp
+brew install libomp
+# cmake is required for whisper-rs
+brew install cmake
+# cidre uses this for audio capture and types
+xcode-select --install
+# Installing the tools
+xcodebuild -runFirstLaunch
+# Installing the tools
+npm install -g pnpm turbo
+```
+
+### Installation
+```bash
+git clone https://github.com/fastrepl/hyprnote.git
+cd hyprnote
+pnpm install && turbo -F @hypr/desktop tauri:dev
+```
+
+### Potential Errors
+#### Architecture/OS Problems
+If you run into issues with windows builds or incorrect architectures (i.e. you are on Apple Silicon `arm64` and see something about windows or `x86`), run the build command with your personal architecture specified as an environment variable like:
+```bash
+CARGO_BUILD_TARGET=aarch64-apple-darwin pnpm exec turbo -F @hypr/desktop tauri:dev 
+```
+
+We support:
+- MacOS Apple Silicon: `aarch64-apple-darwin`
+- MacOS x86 (intel): `x86_64-apple-darwin`
+- Windows x86 (intel/amd): `x86_64-pc-windows-msvc`
+
+#### macOS Version Warnings
+If you see `XXXX was built for newer 'macOS' version (15.0) than being linked (14.2)` that shouldn't cause major issues because `14.2` is the version of macOS where the `NSAudioCaptureUsageDescription` was added, so newer version of macOS will have it as well. But, if you want to get rid of them, bump the following in your local files from `14.2` to `15.0` and they should go away. Please don't merge this into the repository -- we'd like to keep our app as accessible as possible!
+- `crates/tcc/build.rs` - `swift_rs::SwiftLinker::new("14.2")` -> `swift_rs::SwiftLinker::new("15.0")`
+- `apps/desktop/src-tauri/tauri.conf.json` - `"minimumSystemVersion": "14.2"` -> `"minimumSystemVersion": "15.0"`
+- `crates/tcc/swift-lib/Package.swift` - `platforms: [.macOS("14.2")]` -> `platforms: [.macOS("15.0")]`
+
+## Formatting
+
+We use [dprint](https://dprint.dev/) to format the code.
+
+```bash
+dprint fmt
+```
