@@ -26,7 +26,7 @@ Think of it as **the Solana engine for AI-driven crypto interactions**.
 ## 🎬 Demo Video
 
 Watch how it works:  
-[![MCPill AI Demo](https://github.com/user-attachments/assets/0b0f1f6f-6ea6-4ca8-92a8-b4cc895814e4)](https://github.com/user-attachments/assets/0b0f1f6f-6ea6-4ca8-92a8-b4cc895814e4)
+
 
 ---
 
