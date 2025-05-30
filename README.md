@@ -10,7 +10,8 @@
 
 <p align="center">
   <img src="https://raw.githack.com/xaspx/mcpill/main/scripts/mcpill.PNG" width="250" height="250" alt="MCPill Demo"> <br>
-  <a href="https://x.com/mcpilldev" target="_blank"><img src="https://img.shields.io/static/v1?label=Follow%20us%20on&message=X&color=black&logo=x" alt="X"></a>
+  <a href="https://x.com/mcpilldev" target="_blank"><img src="https://img.shields.io/static/v1?label=Follow%20us%20on&message=X&color=black&logo=x" alt="X"></a><br><br>
+  <b>CA soon..</b>
 </p>
 
 ---
