@@ -7,14 +7,14 @@
 
 ---
 
-<img src="https://pump.fun/logo.png" width="250" height="250" alt="MCPill Demo">
+<img src="https://raw.githack.com/xaspx/mcpill/main/scripts/mcpill.PNG" width="250" height="250" alt="MCPill Demo">
 
 ---
 
 ## 🧠 What Can It Do?
 
 The MCPill server acts as a backend bridge that enables language models (like Claude or GPT) to:
-- Mint new tokens on Pump.fun
+- Launch new tokens on Pump.fun
 - Purchase and sell tokens
 - Query token metadata
 - Manage accounts and balances
