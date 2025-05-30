@@ -27,6 +27,7 @@ Think of it as **the Solana engine for AI-driven crypto interactions**.
 
 Watch how it works:  
 
+https://github.com/user-attachments/assets/2854a2f1-8ce4-4767-a1c9-fb555d7cce00
 
 ---
 
