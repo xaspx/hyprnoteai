@@ -43,7 +43,7 @@ If you're on **MacOS** and using **Claude Desktop**, edit this file:
   "mcpServers": {
     "pumpfun": {
       "command": "node",
-      "args": ["/Users/YOUR_USERNAME/Desktop/pumpfun-mcp/build/index.js"],
+      "args": ["/Users/YOUR_USERNAME/Desktop/mcpill/build/index.js"],
       "env": {
         "HELIUS_RPC_URL": "https://your-helius-rpc-url.com"
       }
