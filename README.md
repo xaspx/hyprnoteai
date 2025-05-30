@@ -1,23 +1,48 @@
-# pumpfun-mcp
 
-A Model Context Protocol (MCP) server for interacting with the [Pump.fun](https://pump.fun) platform on Solana. This server enables AI assistants to create, buy, and sell tokens on the Pump.fun platform.
+# 💊 MCPill – Pumpfun  MCP Server
 
-<img src="https://pump.fun/logo.png" width="250" height="250" alt="Pump.fun MCP Demo">
+**MCPill** is a Model Context Protocol (MCP) server for interacting with the [Pump.fun](https://pump.fun) platform on **Solana**. This server enables **AI assistants** to autonomously **create**, **buy**, and **sell** tokens — unleashing fully automated crypto experiences powered by artificial intelligence.
 
-## Usage
+> MCPill bridges the gap between AI autonomy and onchain memecoin deployment.
 
-https://github.com/user-attachments/assets/0b0f1f6f-6ea6-4ca8-92a8-b4cc895814e4
+---
 
-To use this server with Claude or other MCP-compatible AI assistants, add the following configuration to your MCP client:
+<img src="https://pump.fun/logo.png" width="250" height="250" alt="MCPill Demo">
 
-If you're on MacOS and want to run this in Claude Desktop, in your ~/Library/Application \Support/Claude/claude_desktop_config.json file, write the following:
+---
+
+## 🧠 What Can It Do?
+
+The MCPill server acts as a backend bridge that enables language models (like Claude or GPT) to:
+- Mint new tokens on Pump.fun
+- Purchase and sell tokens
+- Query token metadata
+- Manage accounts and balances
+
+Think of it as **the Solana engine for AI-driven crypto interactions**.
+
+---
+
+## 🎬 Demo Video
+
+Watch how it works:  
+[![MCPill AI Demo](https://github.com/user-attachments/assets/0b0f1f6f-6ea6-4ca8-92a8-b4cc895814e4)](https://github.com/user-attachments/assets/0b0f1f6f-6ea6-4ca8-92a8-b4cc895814e4)
+
+---
+
+## 🚀 Usage
+
+To use this server with Claude or another MCP-compatible assistant, add this configuration to your MCP client:
+
+If you're on **MacOS** and using **Claude Desktop**, edit this file:  
+`~/Library/Application\ Support/Claude/claude_desktop_config.json`
 
 ```json
 {
   "mcpServers": {
     "pumpfun": {
       "command": "node",
-      "args": ["/Users/noahsolomon/Desktop/pumpfun-mcp/build/index.js"], // note this should be YOUR absolute path to index.js, not mine.
+      "args": ["/Users/YOUR_USERNAME/Desktop/pumpfun-mcp/build/index.js"],
       "env": {
         "HELIUS_RPC_URL": "https://your-helius-rpc-url.com"
       }
@@ -26,151 +51,119 @@ If you're on MacOS and want to run this in Claude Desktop, in your ~/Library/App
 }
 ```
 
-Replace `https://your-helius-rpc-url.com` with your [Helius RPC URL](https://dev.helius.xyz/).
+👉 Replace the path and `HELIUS_RPC_URL` with your actual setup details.
 
-## Installation
+---
 
-1. Clone this repository:
+## ⚙️ Installation
 
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/xaspx/mcpill.git
+   cd mcpill
    ```
-   git clone https://github.com/noahgsolomon/pumpfun-mcp.git
-   cd pumpfun-mcp
-   ```
 
-2. Install dependencies:
-
-   ```
+2. **Install dependencies**:
+   ```bash
    npm install
    ```
 
-3. Create a `.env` file with your Solana RPC URL:
-
-   ```
+3. **Set up `.env`**:
+   ```env
    HELIUS_RPC_URL=https://your-helius-rpc-url.com
-   ```
-
-   You can get a free RPC URL from [Helius](https://dev.helius.xyz/).
-
-   To use an existing Solana wallet, add your private key to the `.env` file:
-
-   ```
    PRIVATE_KEY=your-base58-encoded-private-key
    ```
 
-   Then run the conversion script to create a keypair file:
-
-   ```
+4. **Convert your key**:
+   ```bash
    node convert-key.js
    ```
 
-   This will create a `default.json` file in the `.keys` folder with your keypair.
-
-4. Build the project:
-
-   ```
+5. **Build the server**:
+   ```bash
    npm run build
    ```
 
-5. Run the MCP server:
-   ```
+6. **Run the MCPill server**:
+   ```bash
    node build/index.js
    ```
 
-## Components
+---
 
-### Tools
+## 🔧 Components
 
-- **get-token-info**
+### Available Tools
 
-  - Get information about a Pump.fun token
-  - Input parameters:
-    - `tokenAddress` (string, required): The token's mint address
+- `get-token-info`: Fetch token metadata
+- `create-token`: Mint new token on Pump.fun
+- `buy-token`: Buy token with adjustable slippage
+- `sell-token`: Sell token by amount or total
+- `list-accounts`: List keypairs
+- `get-account-balance`: Check balances
 
-- **create-token**
+Each of these tools is accessible from your AI assistant or CLI.
 
-  - Create a new Pump.fun token
-  - Input parameters:
-    - `name` (string, required): Token name
-    - `symbol` (string, required): Token symbol
-    - `description` (string, required): Token description
-    - `imageUrl` (string, optional): Path to local image file
-    - `initialBuyAmount` (number, required): Initial buy amount in SOL (min 0.0001)
-    - `accountName` (string, optional): Name of the account to use (defaults to "default")
+---
 
-- **buy-token**
+## 👤 Account Management
 
-  - Buy a Pump.fun token
-  - Input parameters:
-    - `tokenAddress` (string, required): The token's mint address
-    - `buyAmount` (number, required): Amount to buy in SOL (min 0.0001)
-    - `accountName` (string, optional): Name of the account to use (defaults to "default")
-    - `slippageBasisPoints` (number, optional): Slippage tolerance in basis points (defaults to 100)
+Keypairs are stored as JSON files in the `.keys/` folder. The server:
+- Uses `.env` for loading a default private key
+- Saves new mint keypairs as `mint-<symbol>.json`
+- Supports multiple named accounts
 
-- **sell-token**
+Ensure your wallet has SOL before launching or trading tokens.
 
-  - Sell a Pump.fun token
-  - Input parameters:
-    - `tokenAddress` (string, required): The token's mint address
-    - `sellAmount` (number, required): Amount of tokens to sell (use 0 to sell all)
-    - `accountName` (string, optional): Name of the account to use (defaults to "default")
-    - `slippageBasisPoints` (number, optional): Slippage tolerance in basis points (defaults to 100)
+---
 
-- **list-accounts**
+## 🛠 Standalone Scripts
 
-  - List all accounts in the keys folder
-  - No input parameters required
+You can also run core functionality directly from the terminal:
 
-- **get-account-balance**
-  - Get the SOL and token balances for an account
-  - Input parameters:
-    - `accountName` (string, optional): Name of the account to check (defaults to "default")
-    - `tokenAddress` (string, optional): Token address to check balance for
-
-### Account Management
-
-The MCP automatically creates and manages Solana keypairs in the `.keys` folder. Each keypair is stored as a JSON file with the account name as the filename.
-
-When creating a token, the mint keypair is also saved in the `.keys` folder with the prefix `mint-`.
-
-To use the MCP with your own account, you need to:
-
-1. Add your private key to the `.env` file and run `node convert-key.js`
-2. Have sufficient SOL in that wallet
-
-## Standalone Scripts
-
-The project includes several standalone scripts that can be run directly:
-
-- **Get Token Info**: `node build/get-token-info.js <token_address>`
-- **Create Token**: `node build/create-token.js <name> <symbol> <description> <initial_buy_amount> [account_name] [image_url]`
-- **Buy Token**: `node build/buy-token.js <token_address> <buy_amount_sol> [account_name] [slippage_basis_points]`
-- **Sell Token**: `node build/sell-token.js <token_address> <sell_amount> [account_name] [slippage_basis_points]`
-- **List Accounts**: `node build/list-accounts.js`
-- **Get Account Balance**: `node build/get-token-balance.js <account_name> [token_address]`
-
-## Important Notes
-
-- **Security**: The keypairs are stored unencrypted in the `.keys` folder. Make sure to secure this folder appropriately.
-- **Fees**: All transactions on Solana require SOL for transaction fees. Make sure your accounts have enough SOL.
-- **Slippage**: The default slippage tolerance is 1% (100 basis points). You can adjust this for each transaction.
-- **Images**: When creating tokens with images, you must provide a local file path to the image. Remote URLs are not supported.
-
-## Development
-
-### Project Structure
-
-- `src/index.ts`: Main MCP server entry point
-- `src/get-token-info.ts`: Token information retrieval
-- `src/create-token.ts`: Token creation functionality
-- `src/buy-token.ts`: Token buying functionality
-- `src/sell-token.ts`: Token selling functionality
-- `src/list-accounts.ts`: Account listing functionality
-- `src/get-token-balance.ts`: Account balance checking
-- `src/utils.ts`: Shared utility functions
-- `convert-key.js`: Utility to convert a base58 private key to a keypair JSON file
-
-### Building
-
+```bash
+node build/get-token-info.js <token_address>
+node build/create-token.js <name> <symbol> <description> <initial_buy_amount> [account_name] [image_url]
+node build/buy-token.js <token_address> <buy_amount> [account_name] [slippage]
+node build/sell-token.js <token_address> <sell_amount> [account_name] [slippage]
+node build/list-accounts.js
+node build/get-token-balance.js <account_name> [token_address]
 ```
-npm run build
-```
+
+---
+
+## ⚠️ Notes
+
+- Keypairs are **unencrypted**. Secure `.keys/` if you're in production.
+- Pump.fun transactions require SOL — keep wallets funded.
+- Slippage default is 1% (100 basis points). Customize as needed.
+- Images must be **local paths** when minting new tokens.
+
+---
+
+## 🧱 Project Structure
+
+| File | Purpose |
+|------|---------|
+| `src/index.ts` | Entry point for the MCPill server |
+| `src/create-token.ts` | Token minting logic |
+| `src/buy-token.ts` | Buying logic |
+| `src/sell-token.ts` | Selling logic |
+| `src/get-token-info.ts` | Token metadata |
+| `src/get-token-balance.ts` | SOL/token balance lookup |
+| `src/list-accounts.ts` | List accounts |
+| `src/utils.ts` | Shared utilities |
+| `convert-key.js` | Private key to keypair JSON tool |
+
+---
+
+## 📘 License
+
+MIT – Feel free to fork and customize MCPill for your own agent stacks or AI token launch tools.
+
+---
+
+### 🧬 Powered by $MCPILL
+
+This repo is built for agents who take the green pill.  
+Let your AI mint the next viral coin.
